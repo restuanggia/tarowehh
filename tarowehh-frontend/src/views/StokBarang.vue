@@ -82,17 +82,20 @@
                   readonly
                 />
               </div>
-              <button type="submit" class="btn btn-primary">
-                {{ isEditing ? "Update" : "Tambah" }}
-              </button>
-              <button
-                type="button"
-                v-if="isEditing"
-                class="btn btn-secondary ms-2"
-                @click="cancelEdit"
-              >
-                Batal
-              </button>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  {{ isEditing ? "Update" : "Tambah" }}
+                </button>
+
+                <button
+                  type="button"
+                  v-if="isEditing"
+                  class="btn btn-outline-secondary"
+                  @click="cancelEdit"
+                >
+                  Batal
+                </button>
+              </div>
             </form>
           </div>
 
@@ -118,18 +121,21 @@
                   <td>{{ item.jumlahMasuk }}</td>
                   <td>{{ item.barangKeluar }}</td>
                   <td>{{ item.stokAkhir }}</td>
-                  <td>
+                  <td class="aksi">
                     <button
-                      class="btn btn-warning btn-sm"
+                      class="btn btn-outline-primary btn-sm btn-icon"
                       @click="editStok(item)"
+                      title="Edit"
                     >
-                      Edit
+                      <b-icon-pencil />
                     </button>
+
                     <button
-                      class="btn btn-danger btn-sm ms-2"
+                      class="btn btn-outline-danger btn-sm btn-icon"
                       @click="deleteStok(item.id)"
+                      title="Hapus"
                     >
-                      Hapus
+                      <b-icon-trash />
                     </button>
                   </td>
                 </tr>
@@ -251,4 +257,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.aksi {
+  display: flex;
+  gap: 8px; /* JARAK ANTAR BUTTON */
+}
+
+.btn-icon {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px; /* JARAK ANTAR BUTTON */
+  margin-top: 12px;
+}
+</style>

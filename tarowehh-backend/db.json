@@ -410,8 +410,170 @@
           }
         }
       ]
+    },
+    {
+      "id": 1759815943451,
+      "tanggal": "7/10/2025, 12.45.43",
+      "nama": "restu",
+      "totalHarga": 18000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "2",
+          "keterangan": "cod",
+          "products": {
+            "id": "1",
+            "kode": "K-01",
+            "nama": "Tarowehh Original",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "original.jpg"
+          },
+          "id": 1
+        }
+      ]
+    },
+    {
+      "id": 1766824604230,
+      "tanggal": "27/12/2025, 15.36.44",
+      "nama": "anggii",
+      "totalHarga": 18000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "2",
+          "keterangan": "udah di tf",
+          "products": {
+            "id": "3",
+            "kode": "K-03",
+            "nama": "Tarowehh Exstra Pedas",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "pedas.jpg"
+          },
+          "id": 2,
+          "dipilih": true
+        }
+      ]
+    },
+    {
+      "id": 1766824807378,
+      "tanggal": "27/12/2025, 15.40.07",
+      "nama": "aaaaaa",
+      "totalHarga": 36000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "4",
+          "keterangan": "cod ",
+          "products": {
+            "id": "1",
+            "kode": "K-01",
+            "nama": "Tarowehh Original",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "original.jpg"
+          },
+          "id": 1,
+          "dipilih": true
+        }
+      ]
+    },
+    {
+      "id": 1766824841228,
+      "tanggal": "27/12/2025, 15.40.41",
+      "nama": "sfsafc",
+      "totalHarga": 36000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "4",
+          "keterangan": "sdvfds",
+          "products": {
+            "id": "2",
+            "kode": "K-02",
+            "nama": "Tarowehh Balado",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "balado.jpg"
+          },
+          "id": 1,
+          "dipilih": true
+        }
+      ]
+    },
+    {
+      "id": 1766825186023,
+      "tanggal": "27/12/2025, 15.46.26",
+      "nama": "fdsfsd",
+      "totalHarga": 54000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "6",
+          "keterangan": "dsfsdf",
+          "products": {
+            "id": "2",
+            "kode": "K-02",
+            "nama": "Tarowehh Balado",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "balado.jpg"
+          },
+          "id": 1,
+          "dipilih": true
+        }
+      ]
+    },
+    {
+      "id": 1766825279392,
+      "tanggal": "27/12/2025, 15.47.59",
+      "nama": "aku",
+      "totalHarga": 27000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "3",
+          "keterangan": "fdssdf",
+          "products": {
+            "id": "4",
+            "kode": "K-04",
+            "nama": "Tarowehh Jagung Bakar",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "jagung-bakar.jpg"
+          },
+          "id": 1,
+          "dipilih": true
+        }
+      ]
+    },
+    {
+      "id": 1766825346458,
+      "tanggal": "27/12/2025, 15.49.06",
+      "nama": "aaa",
+      "totalHarga": 18000,
+      "keranjangs": [
+        {
+          "jumlah_pemesanan": "2",
+          "keterangan": "ascscd",
+          "products": {
+            "id": "5",
+            "kode": "K-05",
+            "nama": "Tarowehh Coklat",
+            "harga": 9000,
+            "is_ready": true,
+            "gambar": "coklat.jpg"
+          },
+          "id": 1,
+          "dipilih": true
+        }
+      ]
     }
   ],
   "riwayatPesanans": [],
-  "stokBarang": []
+  "stokBarang": [
+    {
+      "id": 1,
+      "tanggal": "2025-10-07",
+      "stokAwal": 15,
+      "jumlahMasuk": 20,
+      "barangKeluar": 30,
+      "stokAkhir": 5
+    }
+  ]
 }

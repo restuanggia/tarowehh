@@ -17,7 +17,7 @@
                   <th scope="col">Nama</th>
                   <th scope="col">Total Harga</th>
                   <th scope="col">Detail</th>
-                  <th scope="col">Hapus</th>
+                  <th scope="col" class="text-center">Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,16 +28,21 @@
                   <td>Rp. {{ item.totalHarga }}</td>
                   <td>
                     <button
-                      class="btn btn-info btn-sm"
+                      class="btn btn-detail btn-sm"
                       @click="lihatDetail(item.id)"
                     >
-                      Lihat Detail
+                      <b-icon-eye class="mr-1" />
+                      Detail
                     </button>
                   </td>
-                  <td align="left" class="text-danger">
-                    <b-icon-trash
+                  <td class="text-center">
+                    <button
+                      class="btn btn-outline-danger btn-sm btn-icon"
                       @click="hapusRiwayatPesanan(item.id)"
-                    ></b-icon-trash>
+                      title="Hapus"
+                    >
+                      <b-icon-trash />
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -77,14 +82,10 @@ export default {
       this.riwayatPesanan = this.riwayatPesanan.filter(
         (item) => item.id !== id
       );
-
-      // Perbarui penyimpanan lokal dengan array yang sudah difilter
       localStorage.setItem(
         "riwayatPesanan",
         JSON.stringify(this.riwayatPesanan)
       );
-
-      // Menampilkan pesan sukses
       this.$toast.error("Sukses Hapus Riwayat Pesanan", {
         type: "error",
         position: "top-right",
@@ -99,4 +100,26 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.btn-detail {
+  background-color: #1e88e5; /* biru utama */
+  color: #ffffff;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-detail:hover {
+  background-color: #0d47a1; /* biru tua */
+  color: #ffffff;
+}
+
+.aksi {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-icon {
+  padding: 6px 8px;
+  line-height: 1;
+}
+</style>

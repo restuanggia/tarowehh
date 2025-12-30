@@ -2,7 +2,7 @@
   <div class="keranjang">
     <Navbar :updateKeranjang="keranjangs" />
     <div class="container">
-      <!-- breadcrumb -->
+      <!-- Breadcrumb -->
       <div class="row mt-4">
         <div class="col">
           <nav aria-label="breadcrumb">
@@ -13,31 +13,31 @@
               <li class="breadcrumb-item">
                 <router-link to="/foods" class="text-dark">Menu</router-link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">
-                Keranjang
-              </li>
+              <li class="breadcrumb-item active">Keranjang</li>
             </ol>
           </nav>
         </div>
       </div>
+      <!-- Tabel Keranjang -->
       <div class="row">
         <div class="col">
-          <h2>
-            Keranjang
-            <strong>Saya</strong>
-          </h2>
+          <h2>Keranjang <strong>Saya</strong></h2>
+
           <div class="table-responsive mt-3">
-            <table class="table">
-              <thead>
+            <table class="table align-middle">
+              <thead class="table-light">
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Foto</th>
-                  <th scope="col">Makanan</th>
-                  <th scope="col">Keterangan</th>
-                  <th scope="col">Jumlah</th>
-                  <th scope="col">Harga</th>
-                  <th scope="col">Total Harga</th>
-                  <th scope="col">Hapus</th>
+                  <th>
+                    <input type="checkbox" @change="toggleAll($event)" />
+                  </th>
+                  <th>#</th>
+                  <th>Foto</th>
+                  <th>Makanan</th>
+                  <th>Keterangan</th>
+                  <th>Jumlah</th>
+                  <th>Harga</th>
+                  <th>Total</th>
+                  <th class="text-center">Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -45,23 +45,24 @@
                   v-for="(keranjang, index) in keranjangs"
                   :key="keranjang.id"
                 >
-                  <th>{{ index + 1 }}</th>
+                  <td>
+                    <input type="checkbox" v-model="keranjang.dipilih" />
+                  </td>
+                  <td>{{ index + 1 }}</td>
                   <td>
                     <img
                       :src="'../assets/images/' + keranjang.products.gambar"
-                      class="img-fluid shadow"
-                      width="250"
+                      class="img-fluid rounded shadow-sm"
+                      width="120"
                     />
                   </td>
                   <td>
                     <strong>{{ keranjang.products.nama }}</strong>
                   </td>
-                  <td>
-                    {{ keranjang.keterangan ? keranjang.keterangan : "-" }}
-                  </td>
+                  <td>{{ keranjang.keterangan || "-" }}</td>
                   <td>{{ keranjang.jumlah_pemesanan }}</td>
-                  <td align="left">Rp. {{ keranjang.products.harga }}</td>
-                  <td align="left">
+                  <td>Rp. {{ keranjang.products.harga }}</td>
+                  <td>
                     <strong>
                       Rp.
                       {{
@@ -69,18 +70,24 @@
                       }}
                     </strong>
                   </td>
-                  <td align="center" class="text-danger">
-                    <b-icon-trash
+                  <td class="text-center">
+                    <button
+                      class="btn btn-outline-danger btn-sm"
                       @click="hapusKeranjang(keranjang.id)"
-                    ></b-icon-trash>
+                    >
+                      <b-icon-trash />
+                    </button>
                   </td>
                 </tr>
+                <!-- Total -->
                 <tr>
-                  <td colspan="6" align="right">
+                  <td colspan="7" class="text-end">
                     <strong>Total Harga :</strong>
                   </td>
-                  <td align="right">
-                    <strong>Rp. {{ totalHarga }}</strong>
+                  <td>
+                    <strong class="total-harga fs-5">
+                      Rp. {{ totalHarga }}
+                    </strong>
                   </td>
                   <td></td>
                 </tr>
@@ -92,17 +99,20 @@
       <!-- Form Checkout -->
       <div class="row justify-content-end">
         <div class="col-md-4">
-          <form class="mt-4" v-on:submit.prevent>
+          <form class="mt-4" @submit.prevent="checkout">
             <div class="form-group">
-              <label for="nama">Nama :</label>
-              <input type="text" class="form-control" v-model="pesan.nama" />
+              <label>Nama :</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="pesan.nama"
+                placeholder="Masukkan nama"
+              />
             </div>
-            <button
-              type="submit"
-              class="btn btn-success float-right"
-              @click="checkout"
-            >
-              <b-icon-cart></b-icon-cart>Pesan
+
+            <button class="btn btn-primary w-100 btn-pesan">
+              <b-icon-cart class="me-1" />
+              Pesan Sekarang
             </button>
           </form>
         </div>
@@ -117,108 +127,119 @@ import axios from "axios";
 
 export default {
   name: "HelloWorld",
-  components: {
-    Navbar,
-  },
+  components: { Navbar },
+
   data() {
     return {
       keranjangs: [],
       pesan: {
-        nama: "", // Menghapus properti noMeja
+        nama: "",
       },
     };
   },
+
   methods: {
     setKeranjangs(data) {
-      this.keranjangs = data;
+      this.keranjangs = data.map((item) => ({
+        ...item,
+        dipilih: true,
+      }));
     },
+
+    toggleAll(event) {
+      const checked = event.target.checked;
+      this.keranjangs.forEach((item) => (item.dipilih = checked));
+    },
+
     hapusKeranjang(id) {
-      axios
-        .delete("http://localhost:3000/keranjangs/" + id)
-        .then(() => {
-          this.$toast.error("Sukses Hapus Keranjang", {
-            type: "error",
-            position: "top-right",
-            duration: 3000,
-            dismissible: true,
-          });
-
-          // Update Data keranjang
-          axios
-            .get("http://localhost:3000/keranjangs")
-            .then((response) => this.setKeranjangs(response.data))
-            .catch((error) => console.log(error));
-        })
-        .catch((error) => console.log(error));
+      axios.delete("http://localhost:3000/keranjangs/" + id).then(() => {
+        this.keranjangs = this.keranjangs.filter((item) => item.id !== id);
+      });
     },
+
     checkout() {
-      if (this.pesan.nama) {
-        this.pesan.keranjangs = this.keranjangs;
+      const keranjangDipilih = this.keranjangs.filter((item) => item.dipilih);
 
-        // Hitung total harga pesanan
-        const totalHarga = this.keranjangs.reduce(function (items, data) {
-          return items + data.products.harga * data.jumlah_pemesanan;
-        }, 0);
-
-        // Tambahkan tanggal pesanan
-        const pesanan = {
-          id: new Date().getTime(), // Unique ID untuk pesanan
-          tanggal: new Date().toLocaleString(), // Tanggal pesanan
-          nama: this.pesan.nama,
-          totalHarga: totalHarga,
-          keranjangs: this.keranjangs, // Menyimpan detail keranjang
-        };
-
-        // Simpan ke localStorage (riwayat pesanan)
-        let riwayat = localStorage.getItem("riwayatPesanan");
-        riwayat = riwayat ? JSON.parse(riwayat) : [];
-        riwayat.push(pesanan);
-        localStorage.setItem("riwayatPesanan", JSON.stringify(riwayat));
-
-        // Lakukan request ke API untuk simpan pesanan
-        axios
-          .post("http://localhost:3000/pesanans", pesanan) // Mengirim data pesanan
-          .then(() => {
-            // Hapus Semua Keranjang
-            this.keranjangs.map(function (item) {
-              return axios
-                .delete("http://localhost:3000/keranjangs/" + item.id)
-                .catch((error) => console.log(error));
-            });
-
-            this.$router.push({ path: "/pesanan-sukses" });
-            this.$toast.success("Sukses Dipesan", {
-              type: "success",
-              position: "top-right",
-              duration: 3000,
-              dismissible: true,
-            });
-          })
-          .catch((err) => console.log(err));
-      } else {
-        this.$toast.error("Nama Harus diisi", {
-          type: "error",
-          position: "top-right",
-          duration: 3000,
-          dismissible: true,
-        });
+      if (!this.pesan.nama) {
+        this.$toast.error("Nama harus diisi");
+        return;
       }
+
+      if (keranjangDipilih.length === 0) {
+        this.$toast.error("Pilih minimal 1 produk");
+        return;
+      }
+
+      const totalHarga = keranjangDipilih.reduce(
+        (total, item) => total + item.products.harga * item.jumlah_pemesanan,
+        0
+      );
+
+      const pesanan = {
+        id: Date.now(),
+        tanggal: new Date().toLocaleString(),
+        nama: this.pesan.nama,
+        totalHarga,
+        keranjangs: keranjangDipilih,
+      };
+
+      let riwayat = localStorage.getItem("riwayatPesanan");
+      riwayat = riwayat ? JSON.parse(riwayat) : [];
+      riwayat.push(pesanan);
+      localStorage.setItem("riwayatPesanan", JSON.stringify(riwayat));
+
+      axios.post("http://localhost:3000/pesanans", pesanan).then(() => {
+        // Hapus hanya item yang dipilih
+        keranjangDipilih.forEach((item) => {
+          axios.delete("http://localhost:3000/keranjangs/" + item.id);
+        });
+
+        this.$router.push("/pesanan-sukses");
+      });
     },
   },
+
   mounted() {
     axios
       .get("http://localhost:3000/keranjangs")
-      .then((response) => this.setKeranjangs(response.data))
-      .catch((error) => console.log(error));
+      .then((res) => this.setKeranjangs(res.data));
   },
+
   computed: {
     totalHarga() {
-      return this.keranjangs.reduce(function (items, data) {
-        return items + data.products.harga * data.jumlah_pemesanan;
-      }, 0);
+      return this.keranjangs
+        .filter((item) => item.dipilih)
+        .reduce(
+          (total, item) => total + item.products.harga * item.jumlah_pemesanan,
+          0
+        );
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-pesan {
+  background-color: #1e88e5;
+  border: none;
+  font-weight: 600;
+  padding: 12px;
+}
+
+.btn-pesan:hover {
+  background-color: #0d47a1;
+}
+
+.total-harga {
+  color: #1e88e5;
+  font-weight: 700;
+}
+
+.total-harga:hover {
+  color: #0d47a1;
+}
+</style>

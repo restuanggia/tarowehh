@@ -32,7 +32,7 @@
             <strong>{{ product.nama }}</strong>
           </h2>
           <hr />
-          <h4>
+          <h4 class="text-primary">
             Harga :
             <strong>Rp. {{ product.harga }}</strong>
           </h4>
@@ -53,7 +53,12 @@
                 placeholder="Keterangan:...."
               ></textarea>
             </div>
-            <button type="submit" class="btn btn-success" @click="pemesanan">
+            <button
+              type="submit"
+              class="btn btn-primary btn-pesan"
+              @click="pemesanan"
+            >
+              <b-icon-cart class="mr-1"></b-icon-cart>
               Pesan
             </button>
           </form>
@@ -116,4 +121,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+/* Button Pesan - konsisten */
+.btn-pesan {
+  background-color: #1e88e5;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-pesan:hover {
+  background-color: #0d47a1;
+  transform: translateY(-1px);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+</style>
